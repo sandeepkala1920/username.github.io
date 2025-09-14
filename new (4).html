@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+  <script src="https://files.bpcontent.cloud/2025/09/09/12/20250909121218-T1BSA5LI.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jharkhand Eco & Cultural Tourism</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f7f9fc;
+      color: #1f2937;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .bg-jhhand {
+      position: relative;
+      overflow: hidden;
+      background-image: url('https://placehold.co/1920x1080/4F46E5/ffffff?text=Eco+and+Cultural+Tourism+in+Jharkhand');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .bg-jhhand .faded-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('https://placehold.co/1920x1080/7F9CF5/ffffff?text=Faded+Background');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.2;
+      animation: fadeInOut 6s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #e9f9fb;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #94a8b8;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64798b;
+    }
+
+    @keyframes fadeInOut {
+
+      0%,
+      100% {
+        opacity: 0.2;
+      }
+
+      50% {
+        opacity: 0.6;
+      }
+    }
+
+    /* Added fade background image for the Weather section */
+    #weather {
+      position: relative;
+      overflow: hidden;
+      min-height: 80vh;
+      /* Ensure it covers full viewport height */
+      width: 100vw;
+      /* Ensure it stretches full viewport width */
+      margin-left: calc(-50vw + 50%);
+      margin-right: calc(-50vw + 50%);
+    }
+
+    #weather::before {
+      content: "";
+      position: fixed;
+      /* Changed from absolute to fixed for full screen */
+      top: 0;
+      left: 0;
+      width: 100vw;
+      /* Full viewport width */
+      height: 100vh;
+      /* Full viewport height */
+      background-image: url('https://plus.unsplash.com/premium_photo-1675827055668-2dae1b8ac181?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8d2VhdGhlcnxlbnwwfHwwfHx8MA%3D%3D');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.6;
+      filter: brightness(70%);
+      z-index: 0;
+    }
+
+    #weather>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Raindrop animation styles */
+    #weather .rain {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    #weather .rain-drop {
+      position: absolute;
+      bottom: 100%;
+      width: 2px;
+      height: 15px;
+      background: rgba(255, 255, 255, 0.6);
+      animation: rain-fall linear infinite;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));
+    }
+
+    @keyframes rain-fall {
+      to {
+        transform: translateY(110vh);
+      }
+    }
+
+    /* Minimal inline styles to override or add for weather section */
+    .weather-container img {
+      margin: 10px auto 0;
+    }
+
+    #weather .weather-container {
+  background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent white background */
+  backdrop-filter: blur(8px); /* Optional: adds blur behind for readability */
+  -webkit-backdrop-filter: blur(8px);
+}
+
+    /* Add faded background image to tourism page */
+    #tourism-destination {
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      /* Ensure it covers full viewport height */
+      width: 100vw;
+      /* Ensure it stretches full viewport width */
+      margin-left: calc(-50vw + 50%);
+      margin-right: calc(-50vw + 50%);
+    }
+
+    #tourism-destination::before {
+      content: "";
+      position: fixed;
+      /* Changed from absolute to fixed for full screen */
+      top: 0;
+      left: 0;
+      width: 100vw;
+      /* Full viewport width */
+      height: 100vh;
+      /* Full viewport height */
+      background-image: url('https://images.pexels.com/photos/66997/pexels-photo-66997.jpeg?cs=srgb&dl=pexels-no-name-14543-66997.jpg&fm=jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.5;
+      filter: brightness(70%);
+      z-index: 0;
+    }
+
+    #tourism-destination>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    #tourism-destination .grid>div.cursor-pointer {
+      max-width: 390px;
+      /* Limits box width to make them smaller */
+      margin-left: auto;
+      /* Center horizontally with equal left and right margin */
+      margin-right: auto;
+      padding: 1rem;
+      /* Slightly reduced padding for smaller box */
+    }
+
+    #tourism-destination .cursor-pointer {
+      background-color: rgba(255, 255, 255, 0.3);
+      /* White with 60% opacity for see-through look */
+      backdrop-filter: blur(8px);
+      /* Optional: adds a subtle blur behind boxes for better readability */
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    #home-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      /* above background but below content */
+      pointer-events: none;
+    }
+
+    .map-faded-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('https://www.shutterstock.com/image-vector/city-map-navigation-gps-navigator-600nw-2449090905.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #map.page {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Container must be relative and cursor-pointer for hover */
+    .cursor-pointer {
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Description box: absolute positioned, covering top area */
+    .box-hover-description {
+      position: absolute;
+      top: 0;
+      /* changed from bottom: 100% */
+      left: 0;
+      right: 0;
+      background: rgba(31, 41, 55, 0.3);
+      color: #f9fafb;
+      font-size: 0.875rem;
+      padding: 1rem;
+      /* more padding for readability */
+      border-radius: 0.375rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateY(-10px);
+      z-index: 20;
+      white-space: normal;
+    }
+
+    /* Show description on hovering container */
+    .cursor-pointer:hover .box-hover-description {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    #scrollLeft {
+  position: absolute;
+  left: 0px; /* or 30px, 50px, etc. */
+  top: 50%;
+  transform: translateY(-50%);
+  /* other styles */
+}
+
+#scrollRight {
+  position: absolute;
+  right: 0px; /* or 30px, 50px, etc. */
+  top: 50%;
+  transform: translateY(-50%);
+  /* other styles */
+}
+
+#scrollLeft, #scrollRight {
+  background-color: transparent !important;
+  color: rgba(9, 9, 9, 0.831) !important;
+  box-shadow: none !important;
+}
+
+
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <!-- Header -->
+  <div class="flex items-center px-4 py-2 space-x-2 bg-white shadow-lg sticky top-0 z-50">
+    <a href="javascript:void(0)" class="flex items-center space-x-2" onclick="showPage('home')">
+      <svg class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M3.055 11H5a2 2 0 012 2v1h.055a2 2 0 011.916 1.34l.222.666A2 2 0 0011 16h2a2 2 0 001.807-1.34l.222-.666A2 2 0 0117 14v-1a2 2 0 012-2h1.945" />
+      </svg>
+      <span class="text-3xl font-bold text-gray-800">Jharkhand Tourism</span>
+    </a>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg sticky top-[56px] z-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="hidden md:block w-full">
+          <div class="flex items-baseline space-x-2 justify-center">
+            <button onclick="showPage('home')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium">Home</button>
+            <button onclick="showPage('tourism-destination')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Tourism</button>
+            <button onclick="showPage('map')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Map</button>
+            <button onclick="showPage('weather')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Weather</button>
+            <button onclick="showPage('calendar')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Calendar</button>
+            <button onclick="showPage('marketplace')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Marketplace</button>
+            <button onclick="showPage('planner')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Trip
+              Planner</button>
+            <button onclick="showPage('toolkit')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Sustainability</button>
+            <button onclick="showPage('content')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Stories</button>
+            <button onclick="showPage('feedback')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Feedback</button>
+            <button onclick="showPage('admin')"
+              class="text-gray-600 hover:bg-gray-100 hover:text-gray-800 px-3 py-1.5 rounded-md text-sm font-medium transition-colors">Admin</button>
+          </div>
+        </div>
+        <div class="md:hidden">
+          <button id="mobile-menu-button" aria-controls="mobile-menu" aria-expanded="false"
+            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <span class="sr-only">Open menu</span>
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <button onclick="showPage('home')"
+          class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100">Home</button>
+        <button onclick="showPage('tourism-destination')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Tourism</button>
+        <button onclick="showPage('map')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Map</button>
+        <button onclick="showPage('weather')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Weather</button>
+        <button onclick="showPage('calendar')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Calendar</button>
+        <button onclick="showPage('marketplace')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Marketplace</button>
+        <button onclick="showPage('planner')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Trip
+          Planner</button>
+        <button onclick="showPage('toolkit')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Sustainability</button>
+        <button onclick="showPage('content')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Stories</button>
+        <button onclick="showPage('feedback')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Feedback</button>
+        <button onclick="showPage('admin')"
+          class="block w-full text-left px-3 py-1.5 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-800">Admin</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <!-- Home Page -->
+    <section id="home" class="page active">
+      <!-- Particle animation canvas -->
+      <canvas id="home-particles"
+        style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:10; pointer-events:none;"></canvas>
+
+      <div class="relative overflow-hidden rounded-3xl shadow-xl h-[100vh] bg-jhhand">
+        <div class="faded-bg"></div>
+        <!-- Main photo background replacing green gradient -->
+        <div
+          class="absolute inset-0 bg-cover bg-center bg-opacity-50 flex flex-col items-center justify-center text-center p-20 space-y-20"
+          style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&amp;fit=crop&amp;w=1920&amp;q=80'); position: relative; z-index: 1;">
+          <h1
+            class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-lg max-w-4xl opacity-0 translate-y-8 animate-fade-slide-up delay-200">
+            Discover the <span class="text-green-400">Soul of Jharkhand</span>
+          </h1>
+          <p
+            class="text-lg md:text-2xl text-green-100 max-w-lg drop-shadow-md opacity-5 translate-y-8 animate-fade-slide-up delay-300">
+            Explore stunning eco-destinations and rich cultural heritage that await your adventure.
+          </p>
+          <button onclick="showPage('tourism-destination')"
+            class="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-semibold rounded-full py-4 px-8 shadow-lg opacity-0 translate-y-8 animate-fade-slide-up delay-500">
+            Start Your Adventure
+          </button>
+        </div>
+      </div>
+      <style>
+        @keyframes fade-slide-up {
+          0% {
+            opacity: 0;
+            transform: translateY(32px);
+          }
+
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-slide-up {
+          animation: fade-slide-up 0.8s forwards;
+        }
+
+        .delay-100 {
+          animation-delay: 0.1s;
+        }
+
+        .delay-300 {
+          animation-delay: 0.3s;
+        }
+
+        .delay-500 {
+          animation-delay: 0.5s;
+        }
+      </style>
+
+      <!-- Explore Jharkhand Section -->
+      <section class="py-16 w-full">
+        <div class="max-w-3xl mx-auto text-center mb-12">
+          <h2 class="text-5xl font-extrabold text-gray-900 mb-2" style="font-family: 'Times New Roman', serif;">
+            Explore <span style="color:#38a169;">Jharkhand</span>
+          </h2>
+          <hr class="mx-auto mb-4" style="border-top:3px solid #d53f8c;width:120px;" />
+          <p class="text-lg text-gray-700 font-semibold">Discover eco destinations, vibrant culture, and scenic
+            adventures</p>
+        </div>
+        <!-- Wrapper for arrows and scroll container -->
+        <div class="relative max-w-7xl mx-auto">
+          <!-- Left Arrow -->
+          <button id="scrollLeft" aria-label="Scroll Left"
+            class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-indigo-600 text-white rounded-full p-2 shadow hover:bg-indigo-700 z-20">
+            &#9664;
+          </button>
+          <!-- Scroll container with id -->
+          <div id="exploreScrollContainer" class="flex space-x-8 overflow-x-auto no-scrollbar py-4 px-2 max-w-full max-w-7xl mx-auto scrollbar-hide">
+          <div onclick="showPage('river-cruise')"
+            class="relative rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer h-80 flex items-end w-80 flex-shrink-0">
+            <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+            <img src="https://about2cruise.co.uk/wp-content/uploads/2025/04/sahibganj_cruise_ship_information.webp"
+              alt="River and Cruise tourism" class="absolute inset-0 w-full h-full object-cover z-0" />
+            <div class="box-hover-description">
+              Enjoy a serene river cruise amidst lush natural surroundings.
+            </div>
+            <div class="relative w-full z-10">
+              <div class="w-full text-center px-3 py-4 text-white font-bold text-xl"
+                style="background:rgba(0,0,0,0.15); backdrop-filter: blur(2px); opacity:0.90;">
+                River and Cruise tourism
+              </div>
+            </div>
+          </div>
+
+          <!-- UPDATED: The Mountains now links to mountains-list page -->
+          <div onclick="showPage('mountains-list')"
+            class="relative rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer h-80 flex items-end w-80 flex-shrink-0">
+            <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+            <img src="https://pbs.twimg.com/media/F6UWjZRX0AA39Rv.jpg" alt="The Mountains"
+              class="absolute inset-0 w-full h-full object-cover z-0" />
+            <div class="box-hover-description">
+              Experience majestic mountain landscapes perfect for trekking and adventure.
+            </div>
+            <div class="relative w-full z-10">
+              <div class="w-full text-center px-3 py-4 text-white font-bold text-xl"
+                style="background:rgba(0,0,0,0.15); backdrop-filter: blur(2px); opacity:0.90;">
+                The Mountains
+              </div>
+            </div>
+          </div>
+
+          <div onclick="showPage('cultural-tourism')"
+            class="relative rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer h-80 flex items-end w-80 flex-shrink-0">
+            <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2k0n2VPbS3NwdMzTcF1uo6nr1Prm7Hw9jmFRwxzLH8ghSt2bbBebjJomS6r4NkWrrwrg&usqp=CAU"
+              alt="Cultural Tourism" class="absolute inset-0 w-full h-full object-cover z-0" />
+            <div class="box-hover-description">
+              Discover rich culture and tribal heritage through local arts and traditions.
+            </div>
+            <div class="relative w-full z-10">
+              <div class="w-full text-center px-3 py-4 text-white font-bold text-xl"
+                style="background:rgba(0,0,0,0.15); backdrop-filter: blur(2px); opacity:0.90;">
+                Cultural Tourism
+              </div>
+            </div>
+          </div>
+
+          <div onclick="showPage('wildlife')"
+            class="relative rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer h-80 flex items-end w-80 flex-shrink-0">
+            <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+            <img
+              src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/cd/29/fd/dsc-2726-1-largejpg.jpg?w=1000&h=800&s=1"
+              alt="Wildlife" class="absolute inset-0 w-full h-full object-cover z-0" />
+            <div class="box-hover-description">
+              Explore wildlife sanctuaries with diverse flora and fauna in natural habitats.
+            </div>
+            <div class="relative w-full z-10">
+              <div class="w-full text-center px-3 py-4 text-white font-bold text-xl"
+                style="background:rgba(0,0,0,0.15); backdrop-filter: blur(2px); opacity:0.90;">
+                Wildlife
+              </div>
+            </div>
+          </div>
+
+          <div onclick="showPage('religious-tourism')"
+            class="relative rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer h-80 flex items-end w-80 flex-shrink-0">
+            <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chhinnamastika_Temple_Rajrappa.jpg/1200px-Chhinnamastika_Temple_Rajrappa.jpg"
+              alt="Religious Tourism" class="absolute inset-0 w-full h-full object-cover z-0" />
+            <div class="box-hover-description">
+              Visit sacred temples known for their spiritual significance and rituals.
+            </div>
+            <div class="relative w-full z-10">
+              <div class="w-full text-center px-3 py-4 text-white font-bold text-xl"
+                style="background:rgba(0,0,0,0.15); backdrop-filter: blur(2px); opacity:0.90;">
+                Religious Tourism
+              </div>
+            </div>
+          </div>
+
+          <div onclick="showPage('heritage-tourism')"
+            class="relative rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer h-80 flex items-end w-80 flex-shrink-0">
+            <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Palamau_Fort.jpg" alt="Heritage Tourism"
+              class="absolute inset-0 w-full h-full object-cover z-0" />
+            <div class="box-hover-description">
+              Explore historical forts and landmarks that preserve Jharkhand's heritage.
+            </div>
+            <div class="relative w-full z-10">
+              <div class="w-full text-center px-3 py-4 text-white font-bold text-xl"
+                style="background:rgba(0,0,0,0.15); backdrop-filter: blur(2px); opacity:0.90;">
+                Heritage Tourism
+              </div>
+            </div>
+          </div>
+        <!-- Right Arrow -->
+          <button id="scrollRight" aria-label="Scroll Right"
+            class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-indigo-600 text-white rounded-full p-2 shadow hover:bg-indigo-700 z-20">
+            &#9654;
+          </button>
+
+        </div>
+      </section>
+    </section>
+
+    <section id="river-cruise" class="page py-12 px-4 max-w-7xl mx-auto">
+      <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+      <h2 class="text-4xl font-bold mb-8 text-center">River Cruise</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div onclick="openDetailPage('ranchi-lake')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Ranchi Lake" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Ranchi Lake</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site for Jains with multiple lake and panoramic views.</p>
+        </div>
+        <!-- Add more river destinations below if needed -->
+      </div>
+    </section>
+
+    <!-- NEW: Mountains Listing Page -->
+    <section id="mountains-list" class="page py-12 px-4 max-w-7xl mx-auto">
+      <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+      <h2 class="text-4xl font-bold mb-8 text-center">Mountain Destinations</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div onclick="openDetailPage('parasnath-hills')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Parasnath Hills" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Parasnath Hills</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site for Jains with multiple temples atop the hill and panoramic views.</p>
+        </div>
+        <div onclick="openDetailPage('canary-hills')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/6a10bcc6f5315518fb822c3b3532f3d6_400x400.jpg" alt="Canary Hills" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Canary Hills</h3>
+          <p class="text-gray-600 text-sm mt-1">Canary Hill is a renowned tourist spot in Hazaribagh, Jharkhand, India, known for its lush green surroundings and panoramic view of the town and dense forests.</p>
+        </div>
+        <div onclick="openDetailPage('netarhat-hill-station')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/9ffc869f0419cc62a4e18896dc9b388b_400x400.jpg" alt="Netarhat Hill Station" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Netarhat Hill Station</h3>
+          <p class="text-gray-600 text-sm mt-1">Netarhat, commonly referred to as the "Queen of Chotanagpur", is a beautiful hill station located in the Latehar district of Jharkhand, India.</p>
+        </div>
+        <div onclick="openDetailPage('trikut-pahar')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/8b9c56be7a9bdf6563496cc3044aae2e_400x400.jpg" alt="Trikut Pahar" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Trikut Pahar</h3>
+          <p class="text-gray-600 text-sm mt-1">Trikut Pahar is an idyllic hill station located near Deoghar in the scenic state of Jharkhand, India.</p>
+        </div>
+        <!-- Add more mountain destinations below if needed -->
+      </div>
+    </section>
+
+    <section id="cultural-tourism" class="page py-12 px-4 max-w-7xl mx-auto">
+      <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+      <h2 class="text-4xl font-bold mb-8 text-center">Cultural Tourisms</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div onclick="openDetailPage('rajrappa-temple')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Rajrappa Temple" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Rajrappa Temple</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site for Jains with multiple cultural fest and panoramic views.</p>
+        </div>
+        <!-- Add more cultural tourism below if needed -->
+      </div>
+    </section>
+
+    <section id="wildlife" class="page py-12 px-4 max-w-7xl mx-auto">
+      <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+      <h2 class="text-4xl font-bold mb-8 text-center">Wildlife Destinations</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div onclick="openDetailPage('betla-national-park')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Belta National Park" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Belta National Park</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site for Jains with multiple wildlife sanctuary and panoramic views.</p>
+        </div>
+        <!-- Add more wildlife park below if needed -->
+      </div>
+    </section>
+
+    <section id="religious-tourism" class="page py-12 px-4 max-w-7xl mx-auto">
+      <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+      <h2 class="text-4xl font-bold mb-8 text-center">Religious Tourisms</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div onclick="openDetailPage('rajrappa-temple')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Rajrappa Temple" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Rajrappa Temple</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site for Jains with multiple temple and panoramic views.</p>
+        </div>
+         <div onclick="openDetailPage('pahari-mandir')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Pahari Mandir" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Pahari Mandir</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site with multiple temple and panoramic views.</p>
+        </div>
+         <div onclick="openDetailPage('bhuvaneswari-temple')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Bhuvaneswari Temple" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Bhuvaneswari Temple</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site with multiple temple and panoramic views.</p>
+        </div>
+         <div onclick="openDetailPage('baidyanath-temple')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Baidyanath Temple" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Baidyanath Temple</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site with multiple temple and panoramic views.</p>
+        </div>
+        <div onclick="openDetailPage('naulakha-mandir')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Naulakha Mandir" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Naulakha Mandir</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site with multiple temple and panoramic views.</p>
+        </div>
+        <div onclick="openDetailPage('shakti-mandir')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Shakti Mandir" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Shakti Mandir</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site with multiple temple and panoramic views.</p>
+        </div>
+        <div onclick="openDetailPage('harihar-dham')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Harihar Dham" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Harihar Dham</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site with multiple temple and panoramic views.</p>
+        </div>
+        <div onclick="openDetailPage('madhuvan-giridih')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Madhuvan Giridih" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Madhuvan Giridih</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site with multiple temple and panoramic views.</p>
+        </div>
+        <!-- Add more religious tourism below if needed -->
+      </div>
+    </section>
+
+    <section id="heritage-tourism" class="page py-12 px-4 max-w-7xl mx-auto">
+      <button onclick="showPage('home')" class="text-indigo-600 underline mb-6 hover:text-indigo-800">&larr; Back to Explore</button>
+      <h2 class="text-4xl font-bold mb-8 text-center">Heritage Tourisms</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div onclick="openDetailPage('rajrappa-temple')" class="cursor-pointer bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg" alt="Rajrappa Temple" class="w-full h-40 object-cover rounded-md mb-2" />
+          <h3 class="text-xl font-semibold">Rajrappa Temple</h3>
+          <p class="text-gray-600 text-sm mt-1">Major pilgrimage site for Jains with multiple historical destinations and panoramic views.</p>
+        </div>
+        <!-- Add more heritage tourism below if needed -->
+      </div>
+    </section>
+
+
+    <!-- Tourism Destination Page -->
+    <section id="tourism-destination" class="page">
+      <h2 class="text-3xl font-bold mb-10 text-center">Tourism Destination</h2>
+
+      <div class="flex justify-center mb-6">
+        <input id="tourismSearchInput" type="text" placeholder="Search Destinations..."
+          class="w-1/4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <button onclick="tourismSearch()"
+          class="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+          Search
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Hudru Falls -->
+        <div onclick="openDetailPage('hundru-falls')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4noY-6n-NkRWqEOQIiQRJDN491ubvEy_KLGMaoUZA9SsNv9deEQllEVm9cagnrmSHF8wqC1HSzwM5OCm93505VUt4rD1ts1yWNlcWZk1aTO5c3rWN5AxFcwDHtfwsQMmouwF53zABw=s1360-w1360-h1020-rw"
+            alt="Hudru Falls" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Hundru Falls</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-blue-100 text-green-800 text-xs px-2 rounded-full">Waterfalls</span>
+            <span class="bg-orange-100 text-blue-800 text-xs px-2 rounded-full">Trekking</span>
+            <span class="bg-purple-100 text-purple-800 text-xs px-2 rounded-full">Ranchi</span>
+          </div>
+        </div>
+
+        <!-- Parasnath Hills -->
+        <div onclick="openDetailPage('parasnath-hills')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcQv-yI_EZ8g9oZGSRWD3eBUB91fhtpyKv0a5BAQJAhpVEmtL1UBGJLTsz_SRGnnHppI_bxptNCOfW01Og3cSS13aU5i-PSHFdBLwYGXqw"
+            alt="Parasnath Hills" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Parasnath Hills</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 rounded-full">Hills</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+         <!-- Canary Hills -->
+        <div onclick="openDetailPage('canary-hills')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/6a10bcc6f5315518fb822c3b3532f3d6_400x400.jpg"
+            alt="Canary Hills" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Canary Hills</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 rounded-full">Hills</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+         <!-- Netarhat Hill Station -->
+        <div onclick="openDetailPage('netarhat-hill-station')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/9ffc869f0419cc62a4e18896dc9b388b_400x400.jpg"
+            alt="Netarhat Hill Station" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Netarhat Hill Station</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 rounded-full">Hills</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+        <!-- Trikut Pahar -->
+        <div onclick="openDetailPage('trikut-pahar')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/8b9c56be7a9bdf6563496cc3044aae2e_400x400.jpg"
+            alt="Trikut Pahar" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Trikut Pahar</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 rounded-full">Hills</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+        <!-- Betla National Park -->
+        <div onclick="openDetailPage('betla-national-park')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img src="https://site.outlookindia.com/traveller/wp-content/uploads/2017/06/jharkhand1_Betla-NP_FI.jpg"
+            alt="Betla National Park" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Betla National Park</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-green-100 text-cyan-800 text-xs px-2 rounded-full">Forests</span>
+            <span class="bg-green-100 text-green-800 text-xs px-2 rounded-full">Wildlife</span>
+          </div>
+        </div>
+
+        <!-- Ranchi Lake -->
+        <div onclick="openDetailPage('ranchi-lake')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/b081b8018be89e3a722644c21b991ad8_1000x1000.jpg"
+            alt="Ranchi Lake" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Ranchi Lake</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-blue-100 text-blue-800 text-xs px-2 rounded-full">Lake</span>
+            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 rounded-full">City</span>
+          </div>
+        </div>
+
+        <!-- Jonha Falls -->
+        <div onclick="openDetailPage('jonha-falls')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Jonha_falls.jpg/960px-Jonha_falls.jpg"
+            alt="Jonha Falls" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Jonha Falls</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-blue-100 text-green-800 text-xs px-2 rounded-full">Waterfalls</span>
+            <span class="bg-purple-100 text-purple-800 text-xs px-2 rounded-full">Nature</span>
+          </div>
+        </div>
+
+        <!-- Rajrappa Temple -->
+        <div onclick="openDetailPage('rajrappa-temple')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chhinnamastika_Temple_Rajrappa.jpg/1200px-Chhinnamastika_Temple_Rajrappa.jpg"
+            alt="Rajrappa Temple" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Rajrappa Temple</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-red-100 text-red-800 text-xs px-2 rounded-full">Temple</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+         <!-- Pahari Mandir -->
+        <div onclick="openDetailPage('pahari-mandir')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/bf4a25baa395d3bf20555806e43db62f_400x400.jpg"
+            alt="Pahari Mandir" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Pahari Mandir</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-blue-100 text-green-800 text-xs px-2 rounded-full">Temple</span>
+            <span class="bg-purple-100 text-purple-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+         <!-- Bhuvaneswari Temple -->
+        <div onclick="openDetailPage('bhuvaneswari-temple')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/a71cfd734664c827561af2f542d277bc_400x400.png"
+            alt="Bhuvaneswari Temple" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Bhuvaneswari Temple</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-red-100 text-red-800 text-xs px-2 rounded-full">Temple</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+         <!-- Baidyanath Temple -->
+        <div onclick="openDetailPage('baidyanath-temple')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/0e67ea3cbf5d5bb9073cd6fc84333080_400x400.jpeg"
+            alt="Baidyanath Temple" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Baidyanath Temple</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-red-100 text-red-800 text-xs px-2 rounded-full">Temple</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+         <!-- Naulakha Mandir -->
+        <div onclick="openDetailPage('naulakha-mandir')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/508c971cd31a86660c6f666936fb2f03_400x400.jpg"
+            alt="Naulakha Mandir" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Naulakha Mandir</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-red-100 text-red-800 text-xs px-2 rounded-full">Temple</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+         <!-- Shakti Mandir -->
+        <div onclick="openDetailPage('shakti-mandir')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/ad4d1e0313e30dc1a266fa02135c2996_400x400.jpg"
+            alt="Shakti Mandir" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Shakti Mandir</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-red-100 text-red-800 text-xs px-2 rounded-full">Temple</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+         <!-- Harihar Dham -->
+        <div onclick="openDetailPage('harihar-dham')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/c9765edb38f5f94370d3fdec442261b8_400x400.jpg"
+            alt="Harihar Dham" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Harihar Dham</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-red-100 text-red-800 text-xs px-2 rounded-full">Temple</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+
+         <!-- Madhuvan Giridih -->
+        <div onclick="openDetailPage('madhuvan-giridih')"
+          class="cursor-pointer bg-white rounded-xl shadow-lg hover:scale-105 transform transition p-6 space-y-4">
+          <img
+            src="https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/3a72a439d0d6e37f0c56d3dd559d17d9_400x400.jpg"
+            alt="Madhuvan Giridih" class="w-full h-48 object-cover rounded-lg" />
+          <h3 class="text-xl font-semibold text-gray-900">Madhuvan Giridih</h3>
+          <p class="text-gray-600 line-clamp-3"></p>
+          <div class="flex gap-2">
+            <span class="bg-red-100 text-red-800 text-xs px-2 rounded-full">Temple</span>
+            <span class="bg-indigo-100 text-indigo-800 text-xs px-2 rounded-full">Pilgrimage</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detail Page -->
+    <section id="detail-page" class="page" style="padding: 1rem;">
+      <button onclick="showPage('tourism-destination')"
+        class="text-indigo-600 underline mb-4 hover:text-indigo-800">&larr; Back to Destinations</button>
+      <h1 id="detail-title" class="text-3xl font-bold mb-4"></h1>
+      <div id="detail-images" class="flex space-x-4 overflow-x-auto mb-6"></div>
+      <p id="detail-description" class="text-lg"></p>
+    </section>
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    // Initial page elements
+    pages = document.querySelectorAll('.page');
+    mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton = document.getElementById('mobile-menu-button');
+
+    // Page navigation logic
+    function showPage(pageId) {
+      pages.forEach((page) => (page.style.display = 'none'));
+      const page = document.getElementById(pageId);
+      if (page) page.style.display = 'block';
+      window.scrollTo(0, 0);
+      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+      }
+    }
+
+    if (mobileMenuButton) {
+      mobileMenuButton.addEventListener('click', () => {
+        if (mobileMenu) mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+      // API key for weather API
+    API_KEY = "1a51c4f4db4b481fbca55650250909";
+
+    const destinationsData = {
+      'hundru-falls': {
+        title: 'Hundru Falls',
+        description:
+          'A spectacular waterfall near Ranchi, surrounded by lush greenery and excellent trekking trails. Ideal to visit during the monsoon season.',
+        images: [
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo/o1/13/40/03/hudru-falls.jpg',
+          'https://upload.wikimedia.org/wikipedia/commons/6/6f/HDru_Falls_2.jpg',
+          'https://www.nativeplanet.com/img/2020/hudru-falls-2.jpg',
+        ],
+      },
+      'parasnath-hills': {
+        title: 'Parasnath Hills',
+        description:
+          'Major pilgrimage site for Jains offering serene landscapes with multiple temples atop the hill and panoramic views.',
+        images: [
+          'https://upload.wikimedia.org/wikipedia/commons/f/f1/Parasnath_Hills.jpg',
+          'https://www.nativeplanet.com/img/2020/parasnath-hill-1.jpg',
+        ],
+      },
+      'betla-national-park': {
+        title: 'Betla National Park',
+        description:
+          'A revered wildlife sanctuary hosting diverse flora and fauna including elephants, tigers, and leopards, along with historic forts.',
+        images: [
+          'https://site.outlookindia.com/traveller/wp-content/uploads/2017/06/jharkhand1_Betla-NP_FI.jpg',
+        ],
+      },
+      'ranchi-lake': {
+        title: 'Ranchi Lake',
+        description:
+          'A tranquil urban lake with boating facilities and scenic surroundings perfect for relaxation right within Ranchi city.',
+        images: [
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo/o1/13/40/03/ranchi-lake.jpg',
+        ],
+      },
+      'jonha-falls': {
+        title: 'Jonha Falls',
+        description:
+          'A beautiful cascading waterfall located on the outskirts of Ranchi offering a peaceful escape amidst nature.',
+        images: [
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Jonha_falls.jpg/960px-Jonha_falls.jpg',
+        ],
+      },
+      'rajrappa-temple': {
+        title: 'Rajrappa Temple',
+        description:
+          'A famous pilgrimage temple situated at the confluence of rivers Damodar and Bhairavi, known for its spiritual significance.',
+        images: [
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chinnastic_Temple_Rajrappa.jpg',
+        ],
+      },
+      'canary-hills': {
+        title: 'Canary Hills',
+        description:
+          'Canary Hill is a renowned tourist spot in Hazaribagh, Jharkhand, India, known for its lush green surroundings and panoramic view of the town and dense forests.',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/6a10bcc6f5315518fb822c3b3532f3d6_400x400.jpg',
+        ],
+      },
+      'netarhat-hill-station': {
+        title: 'Netarhat Hill Station',
+        description:
+          'Netarhat, commonly referred to as the "Queen of Chotanagpur", is a beautiful hill station located in the Latehar district of Jharkhand, India.',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/9ffc869f0419cc62a4e18896dc9b388b_400x400.jpg',
+        ],
+      },
+      'trikut-pahar': {
+        title: 'Trikut Pahar',
+        description:
+          'Trikut Pahar is an idyllic hill station located near Deoghar in the scenic state of Jharkhand, India.',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/8b9c56be7a9bdf6563496cc3044aae2e_400x400.jpg',
+        ],
+      },
+      'pahari-mandir': {
+        title: 'Pahari Mandir',
+        description:
+          'Pahari Mandir is a renowned hilltop temple located in Ranchi, the capital city of Jharkhand, India.',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/bf4a25baa395d3bf20555806e43db62f_400x400.jpg',
+        ],
+      },
+      'bhuvaneswari-temple': {
+        title: 'Bhuvaneswari Temple',
+        description:
+          'Bhuvaneswari Temple, perched atop the serene and picturesque Telco Hill in Jamshedpur, is a sanctified place of worship and holds great reverence among local devotees.',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/a71cfd734664c827561af2f542d277bc_400x400.png',
+        ],
+      },
+      'baidyanath-temple': {
+        title: 'Baidyanath Temple',
+        description:
+          'Baidyanath Temple, also known as Vaidyanath Jyotirlinga Shrine, is one of the twelve Jyotirlingas, the most sacred abodes of Shiva.',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/0e67ea3cbf5d5bb9073cd6fc84333080_400x400.jpeg',
+        ],
+      },
+       'naulakha-mandir': {
+        title: 'Naulakha Mandir',
+        description:
+          'Naulakha Mandir is a beautiful temple situated in Deoghar, a sacred city in the state of Jharkhand, India. ',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/508c971cd31a86660c6f666936fb2f03_400x400.jpg',
+        ],
+      },
+      'shakti-mandir': {
+        title: 'Shakti Mandir',
+        description:
+          'Shakti Mandir, located in Dhanbad, Jharkhand, India, is a revered Hindu temple dedicated to Goddess Durga, also known as the embodiment of Shakti or divine feminine power.',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/ad4d1e0313e30dc1a266fa02135c2996_400x400.jpg',
+        ],
+      },
+      'harihar-dham': {
+        title: 'Harihar Dham',
+        description:
+          'Harihar Dham, located in Giridih district of Jharkhand, India, is a well-known pilgrimage site with the distinction of having the largest Shivalinga in the world.',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/c9765edb38f5f94370d3fdec442261b8_400x400.jpg',
+        ],
+      },
+      'madhuvan-giridih': {
+        title: 'Madhuvan Giridih',
+        description:
+          'Madhuvan, located near Giridih in the state of Jharkhand, India, is renowned as a spiritual and scenic hotspot surrounded by verdant forests and majestic hills.',
+        images: [
+          'https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/08/3a72a439d0d6e37f0c56d3dd559d17d9_400x400.jpg',
+        ],
+      },
+      'river-cruise': {
+        title: 'River and Cruise Tourism',
+        description: 'Enjoy a serene river cruise amidst lush natural surroundings.',
+        images: [
+          'https://about2cruise.co.uk/wp-content/uploads/2025/04/sahibganj_cruise_ship_information.webp'
+        ],
+      },
+      'the-mountains': {
+        title: 'The Mountains',
+        description: 'Experience majestic mountain landscapes perfect for trekking and adventure.',
+        images: [
+          'https://pbs.twimg.com/media/F6UWjZRX0AA39Rv.jpg'
+        ],
+      },
+      'cultural-tourism': {
+        title: 'Cultural Tourism',
+        description: 'Discover rich culture and tribal heritage through local arts and traditions.',
+        images: [
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2k0n2VPbS3NwdMzTcF1uo6nr1Prm7Hw9jmFRwxzLH8ghSt2bbBebjJomS6r4NkWrrwrg&usqp=CAU'
+        ],
+      },
+      'wildlife': {
+        title: 'Wildlife',
+        description: 'Explore wildlife sanctuaries with diverse flora and fauna in natural habitats.',
+        images: [
+          'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/cd/29/fd/dsc-2726-1-largejpg.jpg?w=1000&h=800&s=1'
+        ],
+      },
+      'religious-tourism': {
+        title: 'Religious Tourism',
+        description: 'Visit sacred temples known for their spiritual significance and rituals.',
+        images: [
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chhinnamastika_Temple_Rajrappa.jpg/1200px-Chhinnamastika_Temple_Rajrappa.jpg'
+        ],
+      },
+      'heritage-tourism': {
+        title: 'Heritage Tourism',
+        description: "Explore historical forts and landmarks that preserve Jharkhand's heritage.",
+        images: [
+          'https://upload.wikimedia.org/wikipedia/commons/1/1d/Palamau_Fort.jpg'
+        ],
+      }
+    };
+
+    // Map destination IDs to locations used for weather API query
+    const destinationWeatherLocations = {
+      'hundru-falls': 'Hundru',
+      'parasnath-hills': 'Giridih',
+      'betla-national-park': 'Palamu',
+      'ranchi-lake': 'Ranchi',
+      'jonha-falls': 'Ranchi',
+      'rajrappa-temple': 'Ramgarh',
+      'canary-hills': 'Hazaribagh',
+      'netarhat-hill-station': 'Latehar',
+      'trikut-pahar': 'Deoghar',
+      'pahari-mandir':'Ranchi',
+      'bhuvaneswari-temple':'Jamshedpur',
+      'baidyanath-temple':'Deoghar',
+      'naulakha-mandir':'Deoghar',
+      'shakti-mandir':'Dhanbad',
+      'harihar-dham':'Giridih',
+      'madhuvan-giridih':'Giridih',
+      'river-cruise': 'Sahibganj',
+      'the-mountains': 'Jharkhand',
+      'cultural-tourism': 'Ranchi',
+      'wildlife': 'Palamu',
+      'religious-tourism': 'Ramgarh',
+      'heritage-tourism': 'Palamu'
+    };
+    // Get page elements
+    pages = document.querySelectorAll('.page');
+    mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton = document.getElementById('mobile-menu-button');
+
+
+    // Function to show a specific page and hide others
+    function showPage(pageId) {
+      pages.forEach(page => page.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo(0, 0);
+      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+      }
+    }
+    // Fetch weather data for a location
+    async function fetchWeatherForLocation(location) {
+      if (!location) return null;
+      const URL = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(location)}&aqi=no`;
+      try {
+        const response = await fetch(URL);
+        if (!response.ok) throw new Error('Network error');
+        const data = await response.json();
+        return data;
+      } catch (err) {
+        return null;
+      }
+    }
+    // Function to load destination details and switch to detail page
+    async function openDetailPage(id) {
+      const data = destinationsData[id];
+      if (!data) return;
+
+      const titleEl = document.getElementById('detail-title');
+      const descEl = document.getElementById('detail-description');
+      const imagesEl = document.getElementById('detail-images');
+
+      titleEl.textContent = data.title;
+      descEl.textContent = data.description;
+      imagesEl.innerHTML = '';
+      data.images.forEach((src) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = data.title;
+        img.className = 'h-64 rounded-lg shadow-md flex-shrink-0';
+        imagesEl.appendChild(img);
+      });
+
+      // Insert or clear weather info container
+      let weatherEl = document.getElementById('detail-weather');
+      if (!weatherEl) {
+        weatherEl = document.createElement('div');
+        weatherEl.id = 'detail-weather';
+        weatherEl.className = 'mt-6 p-4 bg-blue-50 rounded-md shadow-inner max-w-md';
+        descEl.parentNode.insertBefore(weatherEl, descEl.nextSibling);
+      }
+      weatherEl.textContent = 'Loading weather information...';
+
+      const location = destinationWeatherLocations[id];
+      const weatherData = await fetchWeatherForLocation(location);
+
+      if (weatherData && weatherData.current) {
+        weatherEl.innerHTML = `
+          <h3 class="text-xl font-semibold mb-2">Live Weather in ${weatherData.location.name}, ${weatherData.location.region}</h3>
+          <p>🌡 Temperature: ${weatherData.current.temp_c}°C</p>
+          <p>🌤 Condition: ${weatherData.current.condition.text}</p> 
+          <img src="https:${weatherData.current.condition.icon}" alt="Weather icon" />
+          <p>🤔 Feels Like: ${weatherData.current.feelslike_c}°C</p>
+          <p>💨 Wind: ${weatherData.current.wind_kph} kph</p>
+          <p>💧 Humidity: ${weatherData.current.humidity}%</p>
+        `;
+      } else {
+        weatherEl.textContent = 'Weather data not available.';
+      }
+
+      showPage('detail-page');
+    }
+
+    // Escape key listener to go back to Explore (home) page
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        showPage('home');
+      }
+    });
+
+    // Search function for tourism page
+    function tourismSearch() {
+      const searchInput = document.getElementById('tourismSearchInput').value.trim().toLowerCase();
+      if (!searchInput) {
+        alert('Please enter a search term.');
+        return;
+      }
+
+      const keywordsToId = {
+        'hundru': 'hundru-falls',
+        'hudru': 'hundru-falls',
+        'parasnath': 'parasnath-hills',
+        'betla': 'betla-national-park',
+        'national park': 'betla-national-park',
+        'ranchi lake': 'ranchi-lake',
+        'ranchi': 'ranchi-lake',
+        'lake': 'ranchi-lake',
+        'jonha': 'jonha-falls',
+        'rajrappa': 'rajrappa-temple',
+        'temple': 'rajrappa-temple'
+      };
+
+      let matchedId = null;
+      for (const keyword in keywordsToId) {
+        if (searchInput.includes(keyword)) {
+          matchedId = keywordsToId[keyword];
+          break;
+        }
+      }
+
+      if (matchedId) {
+        openDetailPage(matchedId);
+      } else {
+        alert('No matching destination found. Please try another search term.');
+      }
+    }
+
+    document.getElementById('tourismSearchInput').addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        tourismSearch();
+      }
+    });
+
+  </script>
+</body>
+
+</html>
+
+
+<!--Weather-->
+<!-- Weather Section with faded background image and rain animation -->
+<section id="weather" class="page py-12">
+  <h2 class="text-3xl font-bold text-center mb-10">Weather Information</h2>
+
+  <!-- Rain animation container -->
+  <div class="rain"></div>
+
+  <div class="flex justify-center">
+    <div class="weather-container bg-white p-6 rounded-xl shadow-lg text-center max-w-sm w-full">
+      <h2 class="text-2xl mb-4">🌤 Weather App</h2>
+      <div class="flex justify-center mb-4">
+        <input type="text" id="cityInput" placeholder="Enter city"
+          class="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <button onclick="getWeather()" class="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+          Search
+        </button>
+      </div>
+      <div id="weatherInfo" class="text-gray-800"></div>
+      <div id="error" class="text-red-600 mt-2"></div>
+    </div>
+  </div>
+
+  <script>
+    const API_KEY = "1a51c4f4db4b481fbca55650250909";
+
+    async function getWeather() {
+      const city = document.getElementById("cityInput").value.trim();
+      const weatherInfo = document.getElementById("weatherInfo");
+      const errorDiv = document.getElementById("error");
+      weatherInfo.innerHTML = "";
+      errorDiv.textContent = "";
+
+      if (!city) {
+        errorDiv.textContent = "⚠️ Please enter a city name!";
+        return;
+      }
+
+      const URL = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(city)}&aqi=yes`;
+
+      try {
+        const response = await fetch(URL);
+        if (!response.ok) throw new Error("Network error");
+        const data = await response.json();
+
+        if (data.error) {
+          errorDiv.textContent = `❌ ${data.error.message}`;
+          return;
+        }
+
+        weatherInfo.innerHTML = `
+              <h3 class="text-xl font-semibold">${data.location.name}, ${data.location.country}</h3>
+              <p>🌡 Temperature: ${data.current.temp_c}°C</p>
+              <p>🌤 Condition: ${data.current.condition.text}</p>
+              <img src="https:${data.current.condition.icon}" alt="Weather icon" />
+              <p>🤔 Feels Like: ${data.current.feelslike_c}°C</p>
+              <p>💨 Wind: ${data.current.wind_kph} kph</p>
+            `;
+      } catch (err) {
+        errorDiv.textContent = "❌ Failed to fetch weather. Try again later.";
+      }
+    }
+
+    // Enable Enter key to trigger weather search
+    document.getElementById('cityInput').addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        getWeather();
+      }
+    });
+
+    // Rain animation generation
+    document.addEventListener('DOMContentLoaded', () => {
+      const rainContainer = document.querySelector('#weather .rain');
+      if (!rainContainer) return;
+
+      const dropsCount = 100;
+
+      for (let i = 0; i < dropsCount; i++) {
+        const drop = document.createElement('div');
+        drop.classList.add('rain-drop');
+        drop.style.left = `${Math.random() * 100}%`;
+        drop.style.animationDuration = (0.5 + Math.random() * 0.5) + 's';
+        drop.style.animationDelay = Math.random() * 5 + 's';
+        drop.style.opacity = (0.2 + Math.random() * 0.5).toString();
+        drop.style.height = (10 + Math.random() * 20) + 'px';
+        rainContainer.appendChild(drop);
+      }
+    });
+  </script>
+</section>
+
+
+
+
+<!-- 2. Interactive Map & Routes -->
+<section id="map" class="page">
+  <!-- Faded background image for map page -->
+  <div class="map-faded-bg"></div>
+  <h2 class="text-3xl font-bold mb-10 text-center">🌍 Interactive Map &amp; Search</h2>
+  <div class="flex justify-center mb-6">
+    <input id="cityInputMap" type="text" placeholder="Enter city"
+      class="w-1/4 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+    <button onclick="searchLocation()" class="ml-2 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+      Search
+    </button>
+  </div>
+  <div id="mapContainer" class="rounded-xl shadow-lg mx-auto" style="height:500px; width:90%; max-width:960px;"></div>
+  <div id="errorMap" class="text-red-600 mt-4 text-center"></div>
+</section>
+
+
+<!-- 3. Cultural Calendar -->
+
+<section id="calendar" class="page py-12">
+  <h2 class="text-3xl font-bold text-center mb-10">Cultural Calendar</h2>
+  <div class="bg-white rounded-xl shadow-lg p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- January -->
+      <div class="bg-gray-100 rounded-lg p-5">
+        <span class="text-sm font-semibold text-pink-600">January (Tentative)</span>
+        <img
+          src="https://assets.thehansindia.com/h-upload/2024/01/15/1414758-fire.webp"
+          alt="Makar Sankranti" class="w-full h-40 object-cover rounded-lg mb-4" />
+        <h3 class="text-xl font-bold mt-2 text-gray-800">Makar Sankranti</h3>
+        <p class="mt-2 text-gray-600 text-sm">A festival celebrating the harvest and the sun's movement into Capricorn.
+          Marked by traditional songs, dances, and kite flying.</p>
+        <button onclick="openModal('booking-modal')"
+          class="mt-4 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Book
+          a Village Tour</button>
+      </div>
+      <!-- March-April -->
+      <div class="bg-gray-100 rounded-lg p-5">
+        <span class="text-sm font-semibold text-indigo-600">March-April (Tentative)</span>
+        <img src="https://i.pinimg.com/736x/42/01/c0/4201c0cc7727cf1d43ea6cfc8d146cb2.jpg"
+          alt="Sarhul Festival" class="w-full h-40 object-cover rounded-lg mb-4" />
+        <h3 class="text-xl font-bold mt-2 text-gray-800">Sarhul Festival</h3>
+        <p class="mt-2 text-gray-600 text-sm">A major tribal festival celebrating the arrival of spring. The Sal trees
+          are worshiped as a sign of respect for nature.</p>
+        <button onclick="openModal('booking-modal')"
+          class="mt-4 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Book
+          a Village Tour</button>
+      </div>
+      <!-- May-June -->
+      <div class="bg-gray-100 rounded-lg p-5">
+        <span class="text-sm font-semibold text-teal-600">May-June (Tentative)</span>
+        <img src="https://utsav.gov.in/public/uploads/event_cover_image/event_828/1661405451770999209.jpg"
+          alt="Jitiya Festival" class="w-full h-40 object-cover rounded-lg mb-4" />
+        <h3 class="text-xl font-bold mt-2 text-gray-800">Jitiya Festival</h3>
+        <p class="mt-2 text-gray-600 text-sm">A tribal festival where mothers fast and pray for the safety and longevity
+          of their children, celebrated with ritual songs and dances.</p>
+        <button onclick="openModal('booking-modal')"
+          class="mt-4 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Book
+          a Village Tour</button>
+      </div>
+      <!-- August-September -->
+      <div class="bg-gray-100 rounded-lg p-5">
+        <span class="text-sm font-semibold text-green-600">August-September (Tentative)</span>
+        <img src="https://utsav.gov.in/public/uploads/event_cover_image/event_683/166115539381102155.jpg" alt="Karam Festival"
+          class="w-full h-40 object-cover rounded-lg mb-4" />
+        <h3 class="text-xl font-bold mt-2 text-gray-800">Karam Festival</h3>
+        <p class="mt-2 text-gray-600 text-sm">Celebrated to invoke the Karam Devta (god of fate), this festival is
+          marked by singing, dancing, and the planting of a Karam tree branch.</p>
+        <button onclick="openModal('booking-modal')"
+          class="mt-4 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Book
+          a Village Tour</button>
+      </div>
+      <!-- October-November -->
+      <div class="bg-gray-100 rounded-lg p-5">
+        <span class="text-sm font-semibold text-orange-600">October-November (Tentative)</span>
+        <img src="https://www.amarchitrakatha.com/wp-content/uploads/2023/03/Sohrai-In-Article-2.png"
+          alt="Sohrai Festival" class="w-full h-40 object-cover rounded-lg mb-4" />
+        <h3 class="text-xl font-bold mt-2 text-gray-800">Sohrai Festival</h3>
+        <p class="mt-2 text-gray-600 text-sm">A harvest festival where tribal people paint their houses with beautiful
+          murals and worship livestock.</p>
+        <button onclick="openModal('booking-modal')"
+          class="mt-4 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Book
+          a Village Tour</button>
+      </div>
+      <!-- December -->
+      <div class="bg-gray-100 rounded-lg p-5">
+        <span class="text-sm font-semibold text-red-600">December (Tentative)</span>
+        <img src="https://indroyc.com/wp-content/uploads/2012/09/karma-celebrations.jpg" alt="Karma Puja"
+          class="w-full h-40 object-cover rounded-lg mb-4" />
+        <h3 class="text-xl font-bold mt-2 text-gray-800">Karma Puja</h3>
+        <p class="mt-2 text-gray-600 text-sm">A festival to worship the Karma tree, symbolizing youth and vitality,
+          including traditional dances and music around the tree.</p>
+        <button onclick="openModal('booking-modal')"
+          class="mt-4 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Book
+          a Village Tour</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 4. Local Experiences Marketplace -->
+<section id="marketplace" class="page py-12">
+  <h2 class="text-3xl font-bold text-center mb-10">Local Experiences Marketplace</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Example Experience Card -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+      <img class="w-full h-48 object-cover" src="https://placehold.co/600x400/D1D5DB/1F2937?text=Dokra+Artisan+Workshop"
+        alt="Dokra Art">
+      <div class="p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold text-gray-900">Dokra Artisan Workshop</h3>
+          <span class="text-sm font-medium text-green-600">$50/person</span>
+        </div>
+        <p class="mt-2 text-gray-600 text-sm">Learn the ancient art of Dokra metal casting directly from a local artisan
+          in a rural village. All materials provided.</p>
+        <button onclick="openModal('marketplace-modal')"
+          class="mt-4 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Book
+          Now</button>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+      <img class="w-full h-48 object-cover" src="https://placehold.co/600x400/D1D5DB/1F2937?text=Sustainable+Homestay"
+        alt="Homestay">
+      <div class="p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold text-gray-900">Sustainable Homestay</h3>
+          <span class="text-sm font-medium text-green-600">$30/night</span>
+        </div>
+        <p class="mt-2 text-gray-600 text-sm">Stay in a traditional mud house with a local family, enjoy home-cooked
+          meals, and learn about sustainable living practices.</p>
+        <button onclick="openModal('marketplace-modal')"
+          class="mt-4 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Book
+          Now</button>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+      <img class="w-full h-48 object-cover" src="https://placehold.co/600x400/D1D5DB/1F2937?text=Licensed+Local+Guide"
+        alt="Guide">
+      <div class="p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-semibold text-gray-900">Licensed Local Guide</h3>
+          <span class="text-sm font-medium text-green-600">$40/day</span>
+        </div>
+        <p class="mt-2 text-gray-600 text-sm">Explore hidden trails and learn about the local ecosystem with a certified
+          guide from the local community.</p>
+        <button onclick="openModal('marketplace-modal')"
+          class="mt-4 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Book
+          Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Sustainability Toolkit -->
+<section id="toolkit" class="page py-12">
+  <h2 class="text-3xl font-bold text-center mb-10">Sustainability Toolkit</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Leave No Trace Tips</h3>
+      <ul class="list-disc pl-5 space-y-2 text-gray-600">
+        <li>Plan ahead and prepare.</li>
+        <li>Travel and camp on durable surfaces.</li>
+        <li>Dispose of waste properly.</li>
+        <li>Leave what you find.</li>
+        <li>Minimize campfire impacts.</li>
+        <li>Respect wildlife.</li>
+        <li>Be considerate of other visitors.</li>
+      </ul>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center text-center">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Site Carrying Capacity</h3>
+      <div class="relative w-48 h-48 md:w-64 md:h-64 rounded-full bg-gray-200">
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <div class="text-5xl font-bold text-green-600">75%</div>
+          <p class="text-gray-500">Current Occupancy</p>
+        </div>
+      </div>
+      <p class="mt-4 text-gray-600">This indicator helps manage tourist flow to reduce environmental stress. The color
+        changes based on occupancy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Trip Planner & Itineraries -->
+<section id="planner" class="page py-12">
+  <h2 class="text-3xl font-bold text-center mb-10">Trip Planner & Itineraries</h2>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Pre-Built Itineraries</h3>
+      <div class="space-y-4">
+        <div class="bg-gray-100 p-4 rounded-lg">
+          <h4 class="text-lg font-medium text-gray-800">The Cultural Trail (3 Days)</h4>
+          <p class="text-gray-600 text-sm">Explore Ranchi, visit tribal villages, and witness traditional art forms.</p>
+          <button onclick="copyToClipboard('cultural-itinerary')"
+            class="mt-2 text-indigo-600 hover:text-indigo-800 font-medium transition-colors">
+            Copy Itinerary
+          </button>
+        </div>
+        <div class="bg-gray-100 p-4 rounded-lg">
+          <h4 class="text-lg font-medium text-gray-800">Eco-Adventure Circuit (5 Days)</h4>
+          <p class="text-gray-600 text-sm">Experience Betla National Park, Hundru Falls, and trekking in the hills.</p>
+          <button onclick="copyToClipboard('eco-itinerary')"
+            class="mt-2 text-indigo-600 hover:text-indigo-800 font-medium transition-colors">
+            Copy Itinerary
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Create Your Own Trip</h3>
+      <form onsubmit="handleFormSubmit(event, 'Trip Planner')">
+        <div class="space-y-4">
+          <div>
+            <label for="trip-name" class="block text-sm font-medium text-gray-700">Trip Name</label>
+            <input type="text" id="trip-name"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              required>
+          </div>
+          <div>
+            <label for="start-date" class="block text-sm font-medium text-gray-700">Start Date</label>
+            <input type="date" id="start-date"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              required>
+          </div>
+          <div>
+            <label for="destinations" class="block text-sm font-medium text-gray-700">Destinations (e.g., Ranchi,
+              Parasnath, Betla)</label>
+            <textarea id="destinations" rows="3"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              required></textarea>
+          </div>
+          <button type="submit"
+            class="w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Create
+            Trip</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Content & Storytelling -->
+<section id="content" class="page py-12">
+  <h2 class="text-3xl font-bold text-center mb-10">Content & Storytelling</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Video/Audio Card -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+      <div class="relative h-48 bg-gray-200 flex items-center justify-center">
+        <svg class="h-16 w-16 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm12 13l4-4-4-4V7l4 4-4 4v-4l4 4v4h-4z" />
+        </svg>
+      </div>
+      <div class="p-4">
+        <h3 class="text-xl font-semibold">Short Documentary: Tribes of Jharkhand</h3>
+        <p class="mt-2 text-gray-600 text-sm">A short film about the culture and traditions of the Munda and Santhal
+          tribes.</p>
+      </div>
+    </div>
+    <!-- Artisan Profile Card -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+      <img class="w-full h-48 object-cover" src="https://placehold.co/600x400/D1D5DB/1F2937?text=Artisan+Profile"
+        alt="Artisan Profile">
+      <div class="p-4">
+        <h3 class="text-xl font-semibold">Artisan Profile: Basanti Devi</h3>
+        <p class="mt-2 text-gray-600 text-sm">Meet a local artisan preserving the traditional Sohrai and Khovar art
+          forms.</p>
+      </div>
+    </div>
+    <!-- Photo Gallery Link Card -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105">
+      <div class="relative h-48 bg-gray-200 flex items-center justify-center">
+        <svg class="h-16 w-16 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M15 13.5c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+          <path
+            d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 19l3-4 2 2.5L13 13l6 6H5z" />
+        </svg>
+      </div>
+      <div class="p-4">
+        <h3 class="text-xl font-semibold">Photo Gallery: Nature & People</h3>
+        <p class="mt-2 text-gray-600 text-sm">Browse stunning visuals of Jharkhand's landscapes and vibrant communities.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Feedback and Reporting -->
+<section id="feedback" class="page py-12">
+  <h2 class="text-3xl font-bold text-center mb-10">Feedback & Reporting</h2>
+  <div class="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
+    <form onsubmit="handleFormSubmit(event, 'Feedback')">
+      <div class="space-y-6">
+        <div>
+          <label for="review" class="block text-sm font-medium text-gray-700">Leave a Review</label>
+          <textarea id="review" rows="4"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            placeholder="Share your experience..." required></textarea>
+        </div>
+        <button type="submit"
+          class="w-full bg-green-600 text-white rounded-lg py-2 font-medium hover:bg-green-700 transition-colors">Submit
+          Review</button>
+      </div>
+    </form>
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <h3 class="text-xl font-semibold text-gray-800">Report an Issue</h3>
+      <p class="mt-2 text-gray-600 text-sm">Use this feature to report litter, safety hazards, or other impacts at a
+        specific location.</p>
+      <button onclick="handleFormSubmit(event, 'Impact Report')"
+        class="mt-4 w-full bg-red-600 text-white rounded-lg py-2 font-medium hover:bg-red-700 transition-colors">
+        Submit Geo-tagged Impact Report
+      </button>
+      <p class="mt-2 text-xs text-gray-500 text-center">Note: This is a prototype. A real app would use your device's
+        location to tag the report.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Admin Dashboard (V2) -->
+<section id="admin" class="page py-12">
+  <h2 class="text-3xl font-bold text-center mb-10">Admin Dashboard</h2>
+  <div class="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+      <div class="bg-indigo-100 p-6 rounded-lg">
+        <h4 class="text-4xl font-bold text-indigo-600">12,500</h4>
+        <p class="mt-1 text-gray-600 font-medium">Monthly Footfall</p>
+      </div>
+      <div class="bg-purple-100 p-6 rounded-lg">
+        <h4 class="text-4xl font-bold text-purple-600">850</h4>
+        <p class="mt-1 text-gray-600 font-medium">Total Bookings</p>
+      </div>
+      <div class="bg-green-100 p-6 rounded-lg">
+        <h4 class="text-4xl font-bold text-green-600">42</h4>
+        <p class="mt-1 text-gray-600 font-medium">New Reports</p>
+      </div>
+    </div>
+    <div class="mt-8">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Recent Bookings</h3>
+      <div class="overflow-x-auto rounded-lg">
+        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking ID</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#JH2024-001</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Homestay (Ranchi)</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Jane Doe</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">$90</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#JH2024-002</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Dokra Workshop</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">John Smith</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">$50</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Global Success Modal -->
+<div id="success-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300">
+  <div
+    class="bg-white rounded-xl shadow-lg p-8 max-w-sm mx-auto text-center transform scale-95 transition-transform duration-300">
+    <svg class="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <h3 class="mt-4 text-xl font-semibold text-gray-900" id="success-modal-title">Success!</h3>
+    <p class="mt-2 text-gray-600" id="success-modal-message">Your action was completed successfully.</p>
+    <button onclick="closeModal('success-modal')"
+      class="mt-6 w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">OK</button>
+  </div>
+</div>
+
+<!-- Booking Modal -->
+<div id="booking-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300">
+  <div class="bg-white rounded-xl shadow-lg p-8 max-w-md mx-auto transform scale-95 transition-transform duration-300">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-2xl font-bold text-gray-900">Book Experience</h3>
+      <button onclick="closeModal('booking-modal')" class="text-gray-400 hover:text-gray-600">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    <form onsubmit="handleFormSubmit(event, 'Booking')">
+      <div class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Your Name</label>
+          <input type="text" id="name"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            required>
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+          <input type="email" id="email"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            required>
+        </div>
+        <div>
+          <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+          <input type="date" id="date"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            required>
+        </div>
+        <button type="submit"
+          class="w-full bg-indigo-600 text-white rounded-lg py-2 font-medium hover:bg-indigo-700 transition-colors">Confirm
+          Booking</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+  (() => {
+    const canvas = document.getElementById('home-particles');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    }
+    resize();
+
+    window.addEventListener('resize', resize);
+
+    const particlesCount = 50;
+    const particles = [];
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = (Math.random() - 0.5) * 1.5;
+        this.speedY = (Math.random() - 0.5) * 1.5;
+        this.alpha = Math.random() * 0.5 + 0.3;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height)
+          this.reset();
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'yellow';
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particlesCount; i++) {
+      particles.push(new Particle());
+    }
+
+    // Connect particles when near
+    function drawConnections() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(255,255,255,${(0.1 * (100 - dist) / 100).toFixed(2)})`;
+            ctx.lineWidth = 1;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      drawConnections();
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+
+</script>
+
+
+  <!-- Updated Auto scroll and manual arrow scroll script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('exploreScrollContainer');
+      const scrollLeftBtn = document.getElementById('scrollLeft');
+      const scrollRightBtn = document.getElementById('scrollRight');
+
+      if (!container || !scrollLeftBtn || !scrollRightBtn) return;
+
+      // Manual scroll handlers for arrow buttons
+      scrollLeftBtn.addEventListener('click', () => {
+        container.scrollBy({ left: -200, behavior: 'smooth' });
+        pauseAutoScroll();
+      });
+
+      scrollRightBtn.addEventListener('click', () => {
+        container.scrollBy({ left: 200, behavior: 'smooth' });
+        pauseAutoScroll();
+      });
+
+      let scrollPos = container.scrollLeft;
+      let direction = 1; // 1 for right, -1 for left
+      const scrollSpeed = 1; // px per frame
+
+      let isUserScrolling = false;
+      let scrollTimeout;
+
+      function pauseAutoScroll() {
+        isUserScrolling = true;
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          isUserScrolling = false;
+          scrollPos = container.scrollLeft;
+        }, 1500); // pause auto-scroll 1.5 seconds after last manual click
+      }
+
+      container.addEventListener('scroll', () => {
+        if (!isUserScrolling) {
+          scrollPos = container.scrollLeft;
+        }
+      });
+
+      function autoScroll() {
+        if (!isUserScrolling) {
+          const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+          scrollPos += direction * scrollSpeed;
+          if (scrollPos >= maxScrollLeft) {
+            scrollPos = maxScrollLeft;
+            direction = -1;
+          } else if (scrollPos <= 0) {
+            scrollPos = 0;
+            direction = 1;
+          }
+          container.scrollLeft = scrollPos;
+        }
+        requestAnimationFrame(autoScroll);
+      }
+
+      autoScroll();
+    });
+  </script>
+
+
+<script>
+  // Data for pre-built itineraries (simulated)
+  const itineraries = {
+    'cultural-itinerary': `Day 1: Arrive in Ranchi, visit local markets and Jagannath Temple.
+Day 2: Village tour to learn about tribal art (Sohrai/Khovar) and culture.
+Day 3: Explore the tribal museum and depart.`,
+    'eco-itinerary': `Day 1: Arrive and transfer to Betla National Park. Evening safari.
+Day 2: Morning safari, then hike to Betla Fort.
+Day 3: Travel to Hundru Falls, enjoy the scenic views.
+Day 4: Trekking near Hundru and visit a nearby village.
+Day 5: Departure from Ranchi.`,
+  };
+
+  // Get elements for navigation and pages
+  const pages = document.querySelectorAll('.page');
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Function to show a specific page and hide others
+  function showPage(pageId) {
+    pages.forEach(page => {
+      page.classList.remove('active');
+    });
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo(0, 0); // Scroll to top of page
+    // Close mobile menu if open
+    mobileMenu.classList.add('hidden');
+  }
+
+  // Toggle mobile menu visibility
+  mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+
+  // Universal function to open a modal
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
+  }
+
+  // Universal function to close a modal
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.add('hidden');
+    document.body.style.overflow = ''; // Re-enable scrolling
+  }
+
+  // Handle form submissions universally
+  function handleFormSubmit(event, formType) {
+    event.preventDefault();
+    const modalTitle = document.getElementById('success-modal-title');
+    const modalMessage = document.getElementById('success-modal-message');
+
+    modalTitle.textContent = `${formType} Submitted!`;
+    modalMessage.textContent = `Thank you for your submission. This information would be processed by our backend system.`;
+
+    openModal('success-modal');
+
+    // Reset the form after a slight delay for better UX
+    setTimeout(() => {
+      event.target.reset();
+    }, 500);
+  }
+
+  // Function to copy text to the clipboard
+  function copyToClipboard(itineraryId) {
+    const itineraryText = itineraries[itineraryId];
+    if (!itineraryText) {
+      return;
+    }
+
+    const tempTextArea = document.createElement('textarea');
+    tempTextArea.value = itineraryText;
+    document.body.appendChild(tempTextArea);
+    tempTextArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        const modalTitle = document.getElementById('success-modal-title');
+        const modalMessage = document.getElementById('success-modal-message');
+        modalTitle.textContent = 'Copied to Clipboard!';
+        modalMessage.textContent = 'The itinerary has been copied to your clipboard.';
+        openModal('success-modal');
+      } else {
+        console.error('Copy command was unsuccessful.');
+      }
+    } catch (err) {
+      console.error('Oops, unable to copy', err);
+    } finally {
+      document.body.removeChild(tempTextArea);
+    }
+  }
+</script>
+
+<script>
+  // Page navigation logic
+  function showPage(pageId) {
+    const pages = document.querySelectorAll('.page');
+    const mobileMenu = document.getElementById('mobile-menu');
+    pages.forEach(page => page.classList.remove('active'));
+    const page = document.getElementById(pageId);
+    if (page) page.classList.add('active');
+    window.scrollTo(0, 0);
+    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+      mobileMenu.classList.add('hidden');
+    }
+  }
+  // Hamburger toggle on DOM ready
+  document.addEventListener("DOMContentLoaded", () => {
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+        const expanded = mobileMenu.classList.contains("hidden") ? "false" : "true";
+        mobileMenuButton.setAttribute("aria-expanded", expanded);
+      });
+    }
+  });
+</script>
+
+
+<!-- Include Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+  // Global variables for map and marker
+  let map, marker;
+
+  // Initialize map on DOM content loaded
+  document.addEventListener("DOMContentLoaded", () => {
+    map = L.map('mapContainer').setView([23.5, 85.33], 6); // Center on Jharkhand approx
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+  });
+
+  // Search location function
+  async function searchLocation() {
+    const city = document.getElementById('cityInputMap').value.trim();
+    const errorDiv = document.getElementById('errorMap');
+    errorDiv.textContent = '';
+    if (!city) {
+      errorDiv.textContent = '⚠️ Please enter a location';
+      return;
+    }
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`);
+      const data = await response.json();
+      if (!data || data.length === 0) {
+        errorDiv.textContent = '❌ Location not found';
+        return;
+      }
+      const lat = parseFloat(data[0].lat);
+      const lon = parseFloat(data[0].lon);
+      map.setView([lat, lon], 12);
+      if (marker) {
+        map.removeLayer(marker);
+      }
+      marker = L.marker([lat, lon]).addTo(map).bindPopup(`<b>${city}</b>`).openPopup();
+    } catch {
+      errorDiv.textContent = '❌ Error fetching location';
+    }
+  }
+  // Enable Enter key for map search bar
+  document.getElementById('cityInputMap').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      searchLocation();
+    }
+  });
+
+  // Show page function with map size fix
+  pages = document.querySelectorAll('.page');
+  mobileMenu = document.getElementById('mobile-menu');
+
+  function showPage(id) {
+    pages.forEach(p => p.classList.remove('active'));
+    const page = document.getElementById(id);
+    if (page) page.classList.add('active');
+    window.scrollTo(0, 0);
+    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+      mobileMenu.classList.add('hidden');
+    }
+    if (id === 'map' && map) {
+      setTimeout(() => map.invalidateSize(), 300);
+    }
+  }
+
+  // Mobile menu toggle
+  mobileMenuButton = document.getElementById('mobile-menu-button');
+  if (mobileMenuButton) {
+    mobileMenuButton.addEventListener('click', () => {
+      if (mobileMenu) mobileMenu.classList.toggle('hidden');
+    });
+  }
+</script>
+
+</body>
+
+</html>
